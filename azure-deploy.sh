@@ -50,16 +50,6 @@ az appservice plan create \
     -n "windows-plan" \
     --sku B1     
 
-echo "Creating Application Insight..."
-az resource create \
-    -g $resourceGroup \
-    -n $appName-ai \
-    --resource-type "Microsoft.Insights/components" \
-    --properties '{"Application_Type":"web"}'
-
-echo "Reading Application Insight Key..."
-aikey=`az resource show -g $resourceGroup -n $appName-ai --resource-type "Microsoft.Insights/components" --query properties.InstrumentationKey -o tsv`
-
 echo "Creating Web Application...";
 az webapp create \
     -g $resourceGroup \
@@ -68,12 +58,6 @@ az webapp create \
     --deployment-source-url $gitSource \
     --deployment-source-branch main
 
-echo "Configuring Application Insights...";
-az webapp config appsettings set \
-    -g $resourceGroup \
-    -n $appName \
-    --settings APPINSIGHTS_KEY="$aikey"
-    
 echo "Configuring Connection String...";
 az webapp config connection-string set \
     -g $resourceGroup \
