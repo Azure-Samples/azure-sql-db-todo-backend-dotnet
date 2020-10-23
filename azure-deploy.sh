@@ -50,7 +50,6 @@ az appservice plan create \
     -n "windows-plan" \
     --sku B1     
 
-
 echo "Creating Application Insight..."
 az resource create \
     -g $resourceGroup \
