@@ -21,7 +21,6 @@ jobs:
       working-directory: ToDoBackEnd.Deploy
       env: 
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
-        TargetDatabase: $GITHUB_REF
         BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
       run: dotnet run
   

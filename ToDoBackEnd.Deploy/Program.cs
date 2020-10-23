@@ -15,7 +15,7 @@ namespace ToDoBackEnd.Deploy
             var backEndUserPassword = Environment.GetEnvironmentVariable("BackEndUserPassword");
 
             var csb = new SqlConnectionStringBuilder(connectionString);
-            csb.InitialCatalog = Environment.GetEnvironmentVariable("TargetDatabase");
+            csb.InitialCatalog = Environment.GetEnvironmentVariable("GITHUB_REF");
             Console.WriteLine($"Deploying database: {csb.InitialCatalog}");
 
             var dbup = DeployChanges.To
