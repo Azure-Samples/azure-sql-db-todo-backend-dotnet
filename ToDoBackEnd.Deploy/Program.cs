@@ -1,6 +1,7 @@
 ﻿using System;
 using DbUp;
 using DotNetEnv;
+using Microsoft.Data.SqlClient;
 
 namespace ToDoBackEnd.Deploy
 {
@@ -13,8 +14,12 @@ namespace ToDoBackEnd.Deploy
             var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
             var backEndUserPassword = Environment.GetEnvironmentVariable("BackEndUserPassword");
 
+            var csb = new SqlConnectionStringBuilder(connectionString);
+            csb.InitialCatalog = Environment.GetEnvironmentVariable("TargetDatabase");
+            Console.WriteLine($"Deploying database: {csb.InitialCatalog}");
+
             var dbup = DeployChanges.To
-                .SqlDatabase(connectionString)
+                .SqlDatabase(csb.ConnectionString)
                 .WithScriptsFromFileSystem("./sql") 
                 .JournalToSqlTable("dbo", "$__dbup_journal")                                               
                 .WithVariable("BackEndUserPassword", backEndUserPassword)
