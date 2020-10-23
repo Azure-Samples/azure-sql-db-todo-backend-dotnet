@@ -14,8 +14,12 @@ namespace ToDoBackEnd.Deploy
             var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
             var backEndUserPassword = Environment.GetEnvironmentVariable("BackEndUserPassword");
 
+            var branchName = Environment.GetEnvironmentVariable("GITHUB_REF");
+            branchName = branchName.Replace("refs/heads/", string.Empty);
+            branchName = branchName == "main" ? string.Empty : "_" + branchName;
+
             var csb = new SqlConnectionStringBuilder(connectionString);
-            csb.InitialCatalog = Environment.GetEnvironmentVariable("GITHUB_REF");
+            csb.InitialCatalog = csb.InitialCatalog + branchName;
             Console.WriteLine($"Deploying database: {csb.InitialCatalog}");
 
             var dbup = DeployChanges.To
