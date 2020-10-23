@@ -3,13 +3,12 @@
 set -euo pipefail
 
 # Make sure these values are correct for your environment
-resourceGroup="dm-api-02"
-appName="dm-api-02"
+resourceGroup="dm-todo-backend-02"
+appName="dmtdb02"
 location="WestUS2" 
 
 # Change this if you are using your own github repository
-gitSource="https://github.com/Azure-Samples/azure-sql-db-dotnet-rest-api.git"
-
+gitSource="https://github.com/Azure-Samples/azure-sql-db-todo-backend-dotnet.git"
 
 # Azure configuration
 FILE=".env"
