@@ -17,7 +17,7 @@ namespace ToDoBackEnd.Deploy
                 .SqlDatabase(connectionString)
                 .WithScriptsFromFileSystem("./sql") 
                 .JournalToSqlTable("dbo", "$__dbup_journal")                                               
-                .WithVariable("$BackEndUserPassword$", backEndUserPassword)
+                .WithVariable("BackEndUserPassword", backEndUserPassword)
                 .LogToConsole()
                 .Build();
 
