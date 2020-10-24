@@ -29,7 +29,7 @@ namespace ToDoBackEnd.Deploy
                 .WithVariable("BackEndUserPassword", backEndUserPassword)
                 .LogToConsole()
                 .Build();
-
+         
             var result = dbup.PerformUpgrade();
 
             if (!result.Successful)
