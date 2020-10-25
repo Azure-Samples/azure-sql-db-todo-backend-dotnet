@@ -28,9 +28,11 @@ namespace ToDoBackEnd.API.Controllers
             return await this.Query(HttpContext.Request.Method, this.GetType(), payload);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<JToken> Delete(int id)
+        [HttpDelete("{id?}")]
+        public async Task<JToken> Delete(int? id)
         {           
+            if (!id.HasValue) return new JArray();
+
             var payload = new JObject();
             payload["id"] = id;            
 
