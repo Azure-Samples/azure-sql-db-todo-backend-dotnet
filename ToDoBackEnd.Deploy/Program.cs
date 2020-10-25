@@ -22,6 +22,13 @@ namespace ToDoBackEnd.Deploy
             csb.InitialCatalog = csb.InitialCatalog + branchName;
             Console.WriteLine($"Deploying database: {csb.InitialCatalog}");
 
+            Console.WriteLine("Testing connection...");
+            var conn = new SqlConnection(csb.ToString());
+            conn.Open();
+            conn.Close();
+            Console.WriteLine("Testing connection...");
+
+            Console.WriteLine("Starting deployment...");
             var dbup = DeployChanges.To
                 .SqlDatabase(csb.ConnectionString)
                 .WithScriptsFromFileSystem("./sql") 
