@@ -26,7 +26,6 @@ namespace ToDoBackEnd.Deploy
             var conn = new SqlConnection(csb.ToString());
             conn.Open();
             conn.Close();
-            Console.WriteLine("Testing connection...");
 
             Console.WriteLine("Starting deployment...");
             var dbup = DeployChanges.To
