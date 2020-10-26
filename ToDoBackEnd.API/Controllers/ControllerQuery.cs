@@ -28,7 +28,9 @@ namespace ToDoBackEnd.API.Controllers
         {
             JToken result = null;
 
-            if (!(new string[] {"get", "put", "patch", "delete", "post"}).Contains(verb.ToLower()))
+            verb = verb.ToLower();
+
+            if (!(new string[] {"get", "put", "patch", "delete", "post"}).Contains(verb))
             {
                 throw new ArgumentException($"verb '{verb}' not supported", nameof(verb));
             }
