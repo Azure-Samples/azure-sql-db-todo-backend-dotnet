@@ -84,7 +84,7 @@ namespace ToDoBackEnd.Tests
         {
             JObject payload = new JObject
             {
-                ["title"] = "a todo"
+                ["title"] = "walk the dog"
             };
 
             var result = await _controller.Post(payload);
