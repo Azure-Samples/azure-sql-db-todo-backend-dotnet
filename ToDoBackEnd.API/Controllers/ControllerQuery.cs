@@ -41,13 +41,12 @@ namespace ToDoBackEnd.API.Controllers
 
             var connectionStringName = verb.ToLower() != "get" ? "ReadWriteConnection" : "ReadOnlyConnection";
             
-            using(var conn = new SqlConnection(_config.GetConnectionString(connectionStringName))) {
+            using(var conn = new SqlConnection(_config.GetConnectionString(connectionStringName))) 
+            {
                 DynamicParameters parameters = new DynamicParameters();
 
                 if (payload != null)
-                {
                     parameters.Add("payload", payload.ToString());
-                }
 
                 var qr = await conn.ExecuteScalarAsync<string>(
                     sql: procedure, 
@@ -59,10 +58,7 @@ namespace ToDoBackEnd.API.Controllers
                     result = JToken.Parse(qr);
             };
 
-            if (result == null) 
-                result = JToken.Parse("[]");
-                        
-            return result;
+            return result ?? JToken.Parse("[]");
         }
     }
 }

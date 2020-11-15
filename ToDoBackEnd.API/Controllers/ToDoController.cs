@@ -68,20 +68,13 @@ namespace ToDoBackEnd.API.Controllers
 
             var AddUrl = new Action<JObject>(o => 
             {
+                if (o == null) return;
                 var todoUrl = $"{baseUrl}/todo/{o["id"]}";
                 o["url"] = todoUrl;
             });
 
-            if (source is JArray)
-            {
-                foreach(JObject i in (source as JArray))
-                {
-                    AddUrl(i);
-                }
-            } else if (source is JObject)
-            {
-                AddUrl(source as JObject);
-            }
+            (source as JArray)?.ToList().ForEach(e => AddUrl(e as JObject));
+            AddUrl(source as JObject);
 
             return source;
         }
