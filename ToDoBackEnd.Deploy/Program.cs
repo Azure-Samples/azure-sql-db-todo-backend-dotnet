@@ -19,7 +19,7 @@ namespace ToDoBackEnd.Deploy
             branchName = branchName == "main" ? string.Empty : "_" + branchName;
 
             var csb = new SqlConnectionStringBuilder(connectionString);
-            csb.InitialCatalog = csb.InitialCatalog + branchName;
+            csb.InitialCatalog += branchName;
             Console.WriteLine($"Deploying database: {csb.InitialCatalog}");
 
             Console.WriteLine("Testing connection...");
