@@ -21,6 +21,7 @@ namespace ToDoBackEnd.Tests
         [OneTimeSetUp]
         public void Initialize()
         {
+            // Access to .env file used for local development
             DotNetEnv.Env.Load(Environment.CurrentDirectory + "/../../../" + Env.DEFAULT_ENVFILENAME);
            
             // Create logger
@@ -76,6 +77,20 @@ namespace ToDoBackEnd.Tests
 
             Assert.IsInstanceOf(typeof(JArray), result);
             Assert.IsEmpty(result);
+        }
+
+        [Test, Order(4)]
+        public async Task POST_has_Url()
+        {
+            JObject payload = new JObject
+            {
+                ["title"] = "a todo"
+            };
+
+            var result = await _controller.Post(payload);
+
+            Assert.IsInstanceOf(typeof(JObject), result);
+            Assert.IsNotEmpty((string)((JObject)result)["url"]);
         }
     }
 }
