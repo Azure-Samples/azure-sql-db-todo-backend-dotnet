@@ -17,7 +17,7 @@ jobs:
     - name: Restore dependencies 
       working-directory: ToDoBackEnd.Deploy
       run: dotnet restore      
-    - name: Deploy
+    - name: Deploy Scripts
       working-directory: ToDoBackEnd.Deploy
       env: 
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
@@ -36,7 +36,7 @@ jobs:
     - name: Restore dependencies 
       working-directory: ToDoBackEnd.Tests
       run: dotnet restore      
-    - name: Deploy
+    - name: Run Tests
       working-directory: ToDoBackEnd.Tests
       env: 
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
@@ -47,10 +47,20 @@ jobs:
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v2
-    - name: Azure WebApp
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '3.1.100' 
+    - name: Build and Publish
+      working-directory: ToDoBackEnd.API
+      run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o './pub' 
+    - name: Deploy Azure WebApp      
       uses: Azure/webapps-deploy@v2
       with:
         app-name: dm-tdb-02
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         slot-name: dev
-        package: './ToDoBackEnd.API'
+        package: './ToDoBackEnd.API/pub'

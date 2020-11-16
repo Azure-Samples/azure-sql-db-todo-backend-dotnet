@@ -37,8 +37,7 @@ namespace ToDoBackEnd.Tests
             var branchName = Environment.GetEnvironmentVariable("GITHUB_REF");
             branchName = branchName.Replace("refs/heads/", string.Empty);
             branchName = branchName == "main" ? string.Empty : "_" + branchName;
-            csb.InitialCatalog += branchName;
-            Console.WriteLine($"Testing database: {csb.InitialCatalog}");
+            csb.InitialCatalog += branchName;            
 
             var inMemoryConfiguration = new Dictionary<string, string>()
             {
