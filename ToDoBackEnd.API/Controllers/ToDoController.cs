@@ -50,8 +50,8 @@ namespace ToDoBackEnd.API.Controllers
             return EnrichResult(await this.Query("post", this.GetType(), payload));
         }
 
-        [HttpPut("{id}")]
-        public async Task<JToken> Put(int id, [FromBody]JToken payload)
+        [HttpPatch("{id}")]
+        public async Task<JToken> Patch(int id, [FromBody]JToken payload)
         {
             var wrapper = new JObject
             {
@@ -59,7 +59,7 @@ namespace ToDoBackEnd.API.Controllers
                 ["todo"] = payload
             };
 
-            return EnrichResult(await this.Query("put", this.GetType(), wrapper));
+            return EnrichResult(await this.Query("patch", this.GetType(), wrapper));
         }
 
         private JToken EnrichResult(JToken source)

@@ -1,0 +1,66 @@
+name: TodoAPI
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+jobs:
+  deploy-database:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '3.1.100' 
+    - name: Restore dependencies 
+      working-directory: ToDoBackEnd.Deploy
+      run: dotnet restore      
+    - name: Deploy Scripts
+      working-directory: ToDoBackEnd.Deploy
+      env: 
+        ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
+        BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
+      run: dotnet run
+  test-database:
+    needs: deploy-database
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '3.1.100' 
+    - name: Restore dependencies 
+      working-directory: ToDoBackEnd.Tests
+      run: dotnet restore      
+    - name: Run Tests
+      working-directory: ToDoBackEnd.Tests
+      env: 
+        ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
+      run: dotnet test
+  deploy-webapp: 
+    needs: test-database
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '3.1.100' 
+    - name: Build and Publish
+      working-directory: ToDoBackEnd.API
+      run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o './pub' 
+    - name: Deploy Azure WebApp      
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: dm-tdb-02
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        slot-name: dev
+        package: './ToDoBackEnd.API/pub'
