@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, dev ]
 jobs:
-  DeployDatabase:
+  deploy-database:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
@@ -23,7 +23,7 @@ jobs:
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
         BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
       run: dotnet run
-  TestDatabase:
+  test-database:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
@@ -40,9 +40,11 @@ jobs:
       env: 
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
       run: dotnet test
-  DeployWebApp: 
+  deploy-webapp: 
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v2
       with:
