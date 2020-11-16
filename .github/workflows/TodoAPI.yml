@@ -1,9 +1,9 @@
 name: TodoAPI
 on:
   push:
-    branches: [ main, dev ]
-  pull_request:
-    branches: [ main, dev ]
+    branches: [ dev ]
+  pull_request_target:
+    branches: [ main ]
 jobs:
   deploy-database:
     runs-on: ubuntu-latest
