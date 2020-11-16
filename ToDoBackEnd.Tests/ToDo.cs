@@ -31,6 +31,15 @@ namespace ToDoBackEnd.Tests
 
             // Create In-Memory configuration
             var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
+
+            // Target correct database based on branch name
+            var csb = new SqlConnectionStringBuilder(connectionString);
+            var branchName = Environment.GetEnvironmentVariable("GITHUB_REF");
+            branchName = branchName.Replace("refs/heads/", string.Empty);
+            branchName = branchName == "main" ? string.Empty : "_" + branchName;
+            csb.InitialCatalog += branchName;
+            Console.WriteLine($"Testing database: {csb.InitialCatalog}");
+
             var inMemoryConfiguration = new Dictionary<string, string>()
             {
                 { "ConnectionStrings:ReadWriteConnection", connectionString },

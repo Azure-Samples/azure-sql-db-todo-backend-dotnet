@@ -24,6 +24,7 @@ jobs:
         BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
       run: dotnet run
   test-database:
+    needs: deploy-database
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
@@ -41,6 +42,7 @@ jobs:
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
       run: dotnet test
   deploy-webapp: 
+    needs: test-database
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
