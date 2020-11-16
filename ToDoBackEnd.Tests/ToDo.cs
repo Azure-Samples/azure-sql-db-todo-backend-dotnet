@@ -11,6 +11,7 @@ using ToDoBackEnd.API;
 using ToDoBackEnd.API.Controllers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ToDoBackEnd.Tests
 {
@@ -46,21 +47,26 @@ namespace ToDoBackEnd.Tests
         {
         }
 
-        [Test, Order(1)]
+        [Test, Order(100)]
+        public async Task Respond_To_GET()
+        {
+            var result = await _controller.Get(null);
+
+            Assert.IsInstanceOf(typeof(JArray), result);            
+        }
+
+        [Test, Order(200)]
         public async Task Respond_To_POST()
         {
-            JObject payload = new JObject
-            {
-                ["title"] = "a todo"
-            };
+            JObject payload = new JObject { ["title"] = "a todo" };
 
             var result = await _controller.Post(payload);
 
             Assert.IsInstanceOf(typeof(JObject), result);
-            Assert.AreEqual("a todo", (string)((JObject)result)["title"]);
+            Assert.AreEqual("a todo", result["title"].Value<string>());
         }
 
-        [Test, Order(2)]
+        [Test, Order(300)]
         public async Task Respond_To_DELETE()
         {
             var result = await _controller.Delete(null);
@@ -69,7 +75,7 @@ namespace ToDoBackEnd.Tests
             Assert.IsEmpty(result);
         }
 
-        [Test, Order(3)]
+        [Test, Order(400)]
         public async Task GET_After_DELETE_All_Is_Empty()
         {
             await _controller.Delete(null);
@@ -79,18 +85,51 @@ namespace ToDoBackEnd.Tests
             Assert.IsEmpty(result);
         }
 
-        [Test, Order(4)]
+        [Test, Order(500)]
         public async Task POST_has_Url()
         {
-            JObject payload = new JObject
-            {
-                ["title"] = "walk the dog"
-            };
+            JObject payload = new JObject { ["title"] = "walk the dog" };
 
+            await _controller.Post(payload);
+            var result = await _controller.Get(null);
+
+            Assert.IsInstanceOf(typeof(JArray), result);
+            Assert.That(result.ToList().Count == 1);
+            Assert.AreEqual("walk the dog", result[0]["title"].Value<string>());
+        }
+
+        [Test, Order(600)]
+        public async Task New_Todo_Is_Not_Complete()
+        {
+            JObject payload = new JObject { ["title"] = "a new todo" };
+            
             var result = await _controller.Post(payload);
 
-            Assert.IsInstanceOf(typeof(JObject), result);
-            Assert.IsNotEmpty((string)((JObject)result)["url"]);
+            Assert.IsInstanceOf(typeof(JObject), result);            
+            Assert.AreEqual(false, result["completed"].Value<bool>());
         }
+
+        [Test, Order(700)]
+        public async Task Each_Todo_Has_A_Url()
+        {
+            JObject payload = new JObject { ["title"] = "another todo" };
+
+            await _controller.Post(payload);
+            var result = await _controller.Get(null);
+
+            Assert.IsInstanceOf(typeof(JArray), result);
+            Assert.That(result.All(i => i["url"].Type == JTokenType.String));
+        }
+
+        //[Test, Order(800)]
+        //public async Task New_Todo_With_Order()
+        //{
+        //    JObject payload = new JObject { ["title"] = "blah" };
+
+        //    var result = await _controller.Post(payload);
+
+        //    Assert.IsInstanceOf(typeof(JObject), result);
+        //    Assert.IsNotNull(result["order"]);
+        //}
     }
 }

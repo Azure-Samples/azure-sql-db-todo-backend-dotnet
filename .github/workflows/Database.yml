@@ -1,9 +1,9 @@
 name: Database
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
 jobs:
   Deploy:
     runs-on: ubuntu-latest
@@ -23,4 +23,20 @@ jobs:
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
         BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
       run: dotnet run
-  
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.4.0
+      with:
+        dotnet-version: '3.1.100' 
+    - name: Restore dependencies 
+      working-directory: ToDoBackEnd.Tests
+      run: dotnet restore      
+    - name: Deploy
+      working-directory: ToDoBackEnd.Tests
+      env: 
+        ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
+      run: dotnet test
