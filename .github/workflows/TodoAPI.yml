@@ -1,11 +1,11 @@
-name: Database
+name: TodoAPI
 on:
   push:
     branches: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
 jobs:
-  Deploy:
+  DeployDatabase:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
@@ -23,7 +23,7 @@ jobs:
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }} 
         BackEndUserPassword: ${{ secrets.AZURE_SQL_BACKEND_USER_PASSWORD }}       
       run: dotnet run
-  Test:
+  TestDatabase:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
@@ -40,3 +40,13 @@ jobs:
       env: 
         ConnectionString: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}  
       run: dotnet test
+  DeployWebApp: 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: dm-tdb-02
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        slot-name: dev
+        package: './ToDoBackEnd.API'
