@@ -42,8 +42,8 @@ namespace ToDoBackEnd.Tests
 
             var inMemoryConfiguration = new Dictionary<string, string>()
             {
-                { "ConnectionStrings:ReadWriteConnection", connectionString },
-                { "ConnectionStrings:ReadOnlyConnection", connectionString }
+                { "ConnectionStrings:ReadWriteConnection", csb.ConnectionString },
+                { "ConnectionStrings:ReadOnlyConnection", csb.ConnectionString }
             };
             var config = new ConfigurationBuilder().AddInMemoryCollection(inMemoryConfiguration).Build();
 
