@@ -48,19 +48,19 @@ You can also test this implementation right using the live [ToDoMVC](http://todo
 
 using the deployed solution as the backend server. For example: https://dm-tdb-02.azurewebsites.net/todo.
 
-# Deployment
+## Deployment
 
-## Create Database
+### Create Database
 
 Create an Azure SQL database where to host the to-do data. If you need help to create an Azure SQL database, take a look here: [Running the samples](https://github.com/yorek/azure-sql-db-samples#running-the-samples). 
 
 If you are completely new to Azure SQL, here's a full playlist that will help you: [Azure SQL for beginners](https://www.youtube.com/playlist?list=PLlrxD0HtieHi5c9-i_Dnxw9vxBY-TqaeN).
 
-## Manual Deployment
+### Manual Deployment
 
-## Automated Deployment
+### Automated Deployment
 
-# Contributing 
+## Contributing 
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
