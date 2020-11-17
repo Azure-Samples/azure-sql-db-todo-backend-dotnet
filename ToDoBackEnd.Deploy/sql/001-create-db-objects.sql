@@ -1,4 +1,4 @@
-create schema [web];
+create schema [web] authorization [dbo];
 go
 
 create user [todo-backend] with password = '$BackEndUserPassword$' -- substituted with real password by DbUp
