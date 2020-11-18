@@ -58,7 +58,11 @@ If you are completely new to Azure SQL, here's a full playlist that will help yo
 
 ### Manual Deployment
 
+WIP
+
 ### Automated Deployment
+
+WIP
 
 ## Contributing 
 
