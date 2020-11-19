@@ -350,6 +350,7 @@ MigrationBackup/
 .ionide/
 
 # Custom files
-appsettings.Development.json
-.env
+*.Development.json
+*.env
 .vscode/
+.vs/
