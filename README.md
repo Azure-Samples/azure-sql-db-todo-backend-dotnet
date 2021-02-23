@@ -4,6 +4,7 @@ languages:
 - tsql
 - sql
 - aspx-csharp
+- csharp
 - json
 products:
 - azure
@@ -12,10 +13,12 @@ products:
 - dotnet-core
 - aspnet-core
 - azure-api-apps
+- azure-app-service
+- azure-web-apps
 - vs-code
 - azure-sql-database
 description: "TodoMVC Backend Implementation with Azure WebApps, Net Core and Azure SQL"
-urlFragment: "azure-sql-db-todo-backend-dotnet"
+urlFragment: azure-sql-db-todo-backend-dotnet
 ---
 
 <!-- 
