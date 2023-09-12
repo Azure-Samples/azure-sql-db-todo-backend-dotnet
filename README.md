@@ -10,11 +10,8 @@ products:
 - azure
 - dotnet
 - aspnet
-- dotnet-core
 - aspnet-core
-- azure-api-apps
 - azure-app-service
-- azure-web-apps
 - azure-sql-database
 description: "TodoMVC Backend Implementation with Azure WebApps, Net Core and Azure SQL"
 urlFragment: azure-sql-db-todo-backend-dotnet
