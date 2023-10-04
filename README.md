@@ -10,7 +10,6 @@ products:
 - azure
 - dotnet
 - aspnet
-- dotnet-core
 - aspnet-core
 - azure-api-apps
 - azure-app-service
