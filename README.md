@@ -9,7 +9,6 @@ languages:
 products:
 - azure
 - dotnet
-- aspnet
 - aspnet-core
 - azure-app-service
 - azure-sql-database
